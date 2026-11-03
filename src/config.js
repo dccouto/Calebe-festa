@@ -15,16 +15,16 @@ export default {
   marca: 'Turma do Calebe',
 
   // Data e horário (placeholders — edite)
-  dataTexto: 'Sábado, 15 de dezembro de 2026',
-  horario: '15h00',
+  dataTexto: 'Sábado, 28 de novembro de 2026',
+  horario: '16h00',
 
   // Local (placeholder — edite quando souber o endereço)
-  localNome: 'Local a confirmar',
-  endereco: 'Endereço ainda não informado — edite em src/config.js',
-  complemento: 'Cidade / Bairro — edite em src/config.js',
-  mapsUrl: '', // opcional: link do Google Maps
+  localNome: 'Condomínio Cenário de Monet',
+  endereco: 'Rua Visconde de Taunay, 59',
+  complemento: 'Corrêas / Petrópolis',
+  mapsUrl: 'https://maps.app.goo.gl/Xw1N9ma4V4AUEUbm7',
 
   // WhatsApp do anfitrião (extra opcional além do RSVP no Oracle)
-  whatsapp: '5511999999999',
+  whatsapp: '5524993012475',
   whatsappNome: 'Família do Calebe',
 }
