@@ -1,7 +1,13 @@
 <template>
   <header class="hero">
     <div class="hero-visual" aria-hidden="true">
-      <VillageArt />
+      <img
+        class="hero-fundo"
+        :src="fundoSrc"
+        alt=""
+        width="1024"
+        height="724"
+      />
       <div class="hero-vinheta" />
     </div>
     <div class="hero-conteudo">
@@ -16,11 +22,8 @@
 </template>
 
 <script>
-import VillageArt from './VillageArt.vue'
-
 export default {
   name: 'HeroSection',
-  components: { VillageArt },
   props: {
     config: {
       type: Object,
@@ -28,6 +31,12 @@ export default {
     },
   },
   emits: ['confirmar'],
+  computed: {
+    fundoSrc() {
+      const base = import.meta.env.BASE_URL || '/'
+      return `${base}images/turma-do-chaves-desenho.png`
+    },
+  },
 }
 </script>
 
@@ -47,11 +56,13 @@ export default {
   z-index: 0;
 }
 
-.hero-visual :deep(svg) {
+.hero-fundo {
+  display: block;
   width: 100%;
   height: 100%;
-  min-height: 100%;
   object-fit: cover;
+  object-position: center 28%;
+  animation: zoom-leve 18s ease-in-out infinite alternate;
 }
 
 .hero-vinheta {
@@ -61,12 +72,12 @@ export default {
   background:
     linear-gradient(
       180deg,
-      transparent 0%,
-      transparent 42%,
-      rgba(31, 20, 12, 0.18) 68%,
-      rgba(31, 20, 12, 0.45) 100%
+      rgba(20, 12, 8, 0.22) 0%,
+      rgba(20, 12, 8, 0.08) 28%,
+      rgba(20, 12, 8, 0.35) 58%,
+      rgba(20, 12, 8, 0.72) 100%
     ),
-    radial-gradient(ellipse at 50% 120%, rgba(255, 214, 10, 0.28), transparent 55%);
+    radial-gradient(ellipse at 35% 85%, rgba(255, 214, 10, 0.14), transparent 50%);
 }
 
 .hero-conteudo {
@@ -92,7 +103,7 @@ export default {
     1px -1px 0 #1f140c,
     -1px 1px 0 #1f140c,
     1px 1px 0 #1f140c,
-    0 4px 0 rgba(0, 0, 0, 0.2);
+    0 4px 12px rgba(0, 0, 0, 0.45);
   animation: marca-pop 1.1s cubic-bezier(0.22, 1.2, 0.36, 1) both;
 }
 
@@ -103,7 +114,9 @@ export default {
   font-size: clamp(1.4rem, 4.2vw, 2.05rem);
   line-height: 1.15;
   color: #fff8e8;
-  text-shadow: 0 2px 0 rgba(31, 20, 12, 0.55);
+  text-shadow:
+    0 2px 0 rgba(31, 20, 12, 0.75),
+    0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 .frase {
@@ -112,7 +125,9 @@ export default {
   font-size: clamp(1rem, 2.4vw, 1.15rem);
   line-height: 1.45;
   color: #fff3d6;
-  text-shadow: 0 1px 2px rgba(31, 20, 12, 0.45);
+  text-shadow:
+    0 1px 2px rgba(31, 20, 12, 0.65),
+    0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 .cta {
@@ -126,19 +141,25 @@ export default {
   border-radius: 16px;
   color: #fff8e8;
   background: linear-gradient(135deg, #e63946 0%, #c62828 100%);
-  box-shadow: 0 7px 0 #7a1c1c;
+  box-shadow:
+    0 7px 0 #7a1c1c,
+    0 10px 24px rgba(0, 0, 0, 0.35);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   animation: cta-pulse 2.4s ease-in-out infinite;
 }
 
 .cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 9px 0 #7a1c1c;
+  box-shadow:
+    0 9px 0 #7a1c1c,
+    0 12px 28px rgba(0, 0, 0, 0.4);
 }
 
 .cta:active {
   transform: translateY(4px);
-  box-shadow: 0 3px 0 #7a1c1c;
+  box-shadow:
+    0 3px 0 #7a1c1c,
+    0 6px 16px rgba(0, 0, 0, 0.3);
   animation: none;
 }
 
@@ -174,17 +195,31 @@ export default {
   }
 }
 
+@keyframes zoom-leve {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
 @media (min-width: 900px) {
   .hero-conteudo {
     padding-left: clamp(2.5rem, 7vw, 5.5rem);
     padding-bottom: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .hero-fundo {
+    object-position: center 22%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-conteudo,
   .marca,
-  .cta {
+  .cta,
+  .hero-fundo {
     animation: none;
   }
 }
