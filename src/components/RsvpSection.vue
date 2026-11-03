@@ -3,9 +3,7 @@
     <div class="rsvp-inner">
       <h2>Confirmar presença</h2>
       <p class="apoio">
-        Informe quem vem e se realmente poderão ir. A confirmação é salva no banco da festa
-        <template v-if="ordsOk"> (Oracle)</template>
-        <template v-else> (modo local até configurar a API)</template>.
+        Informe quem vem e se realmente poderão ir.
       </p>
 
       <form class="formulario" @submit.prevent="enviar">

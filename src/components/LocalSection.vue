@@ -2,7 +2,7 @@
   <section class="local" id="local">
     <div class="local-inner">
       <h2>Onde e quando</h2>
-      <p class="apoio">Anote na agenda — o endereço pode ser atualizado depois.</p>
+      <p class="apoio">Anote na agenda!</p>
 
       <dl class="detalhes">
         <div>
