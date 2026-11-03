@@ -1,0 +1,15 @@
+# Proxy ORDS para produção (Worker standalone OU base do Pages).
+# Deploy Worker:
+#   npx wrangler login
+#   npx wrangler secret put ORDS_PROXY_TARGET
+#   npx wrangler secret put CORS_ALLOW_ORIGINS
+#   npx wrangler deploy
+#
+# Espelha PipocaGourmet (pope-ords-proxy).
+
+name = "calebe-ords-proxy"
+main = "cloudflare/ords-proxy.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+# CORS_ALLOW_ORIGINS = "https://SEU_USUARIO.github.io,http://localhost:5173"

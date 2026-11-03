@@ -1,0 +1,179 @@
+body {
+  background:
+    radial-gradient(circle at top right, rgba(75, 163, 217, 0.2), transparent 40%),
+    linear-gradient(180deg, #f4f8ef 0%, #fff6d8 100%);
+}
+
+.admin-shell {
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: 1.5rem 1.1rem 3rem;
+}
+
+.admin-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-topo h1 {
+  margin: 0;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: #c45c3e;
+}
+
+.admin-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid rgba(139, 90, 43, 0.18);
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+
+.admin-card h2 {
+  margin: 0 0 1rem;
+  font-family: 'Baloo 2', sans-serif;
+  color: #2f5f2a;
+}
+
+.admin-campo {
+  display: grid;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.admin-campo span {
+  font-weight: 700;
+  color: #2e6f9a;
+}
+
+.admin-campo input {
+  font: inherit;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  border: 2px solid rgba(46, 111, 154, 0.3);
+  background: #fffdf7;
+}
+
+.admin-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.admin-btn {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 700;
+  border-radius: 10px;
+  border: 0;
+  cursor: pointer;
+  padding: 0.7rem 1.1rem;
+}
+
+.admin-btn.primario {
+  background: #2f8f46;
+  color: #fff;
+}
+
+.admin-btn.fantasma {
+  background: transparent;
+  color: #a8462f;
+  text-decoration: underline;
+}
+
+.admin-aviso,
+.admin-erro,
+.admin-ok {
+  margin: 0 0 1rem;
+  font-weight: 700;
+}
+
+.admin-erro {
+  color: #a12020;
+}
+
+.admin-ok {
+  color: #1f7a45;
+}
+
+.admin-aviso {
+  color: #7a4a12;
+  background: #fff3cd;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+}
+
+.admin-tabela-wrap {
+  overflow-x: auto;
+}
+
+.admin-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.admin-tabela th,
+.admin-tabela td {
+  text-align: left;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid rgba(139, 90, 43, 0.18);
+  vertical-align: top;
+}
+
+.admin-tabela th {
+  font-family: 'Baloo 2', sans-serif;
+  color: #2e6f9a;
+}
+
+.pill-status {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.pill-status.confirmado {
+  background: #d8f5e0;
+  color: #1f7a45;
+}
+
+.pill-status.talvez {
+  background: #fff0c2;
+  color: #8a6500;
+}
+
+.pill-status.nao_pode {
+  background: #ffe0d8;
+  color: #a8462f;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.stat {
+  flex: 1 1 120px;
+  background: rgba(75, 163, 217, 0.12);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+}
+
+.stat strong {
+  display: block;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.4rem;
+  color: #2f5f2a;
+}
+
+.stat span {
+  font-size: 0.85rem;
+  color: #5a4332;
+}

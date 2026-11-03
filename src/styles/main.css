@@ -1,0 +1,80 @@
+:root {
+  --cor-ceu: #7ec8f0;
+  --cor-amarelo: #f5c518;
+  --cor-tijolo: #c45c3e;
+  --cor-verde: #2f5f2a;
+  --cor-azul: #4ba3d9;
+  --cor-madeira: #8b5a2b;
+  --cor-texto: #2a1a0e;
+  --fonte-display: 'Baloo 2', sans-serif;
+  --fonte-corpo: 'Nunito', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--fonte-corpo);
+  color: var(--cor-texto);
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      rgba(245, 197, 24, 0.05) 0 12px,
+      transparent 12px 24px
+    ),
+    linear-gradient(180deg, #dff3ff 0%, #fff6d8 45%, #e8f7df 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+.rodape {
+  padding: 2rem 1.25rem 2.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, #5bab4a 0%, #3f8f38 100%);
+  color: #fff8e7;
+}
+
+.rodape p {
+  margin: 0 0 0.65rem;
+  font-family: var(--fonte-display);
+  font-size: 1.1rem;
+}
+
+.rodape-admin {
+  font-size: 0.9rem;
+  font-weight: 700;
+  opacity: 0.9;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.rodape-admin:hover {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
