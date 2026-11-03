@@ -1,12 +1,22 @@
 :root {
-  --cor-ceu: #7ec8f0;
-  --cor-amarelo: #f5c518;
-  --cor-tijolo: #c45c3e;
-  --cor-verde: #2f5f2a;
-  --cor-azul: #4ba3d9;
-  --cor-madeira: #8b5a2b;
-  --cor-texto: #2a1a0e;
-  --fonte-display: 'Baloo 2', sans-serif;
+  /* Paleta inspirada no clima animado da vila (primárias saturadas) */
+  --cor-ceu: #5bb8e8;
+  --cor-ceu-claro: #9fd8f5;
+  --cor-amarelo: #ffd60a;
+  --cor-amarelo-quente: #f5b800;
+  --cor-vermelho: #e63946;
+  --cor-rosa: #f25ca2;
+  --cor-azul: #1d6fbf;
+  --cor-azul-claro: #4ba3d9;
+  --cor-verde: #3d9e3a;
+  --cor-verde-escuro: #2a7a2e;
+  --cor-laranja: #ff8c42;
+  --cor-madeira: #a66b2b;
+  --cor-madeira-escura: #6b3f1f;
+  --cor-tijolo: #d96b4c;
+  --cor-texto: #1f140c;
+  --cor-creme: #fff8e8;
+  --fonte-display: 'Fredoka', 'Baloo 2', sans-serif;
   --fonte-corpo: 'Nunito', sans-serif;
 }
 
@@ -26,12 +36,9 @@ body {
   font-family: var(--fonte-corpo);
   color: var(--cor-texto);
   background:
-    repeating-linear-gradient(
-      -12deg,
-      rgba(245, 197, 24, 0.05) 0 12px,
-      transparent 12px 24px
-    ),
-    linear-gradient(180deg, #dff3ff 0%, #fff6d8 45%, #e8f7df 100%);
+    radial-gradient(ellipse at 15% 0%, rgba(242, 92, 162, 0.12), transparent 42%),
+    radial-gradient(ellipse at 85% 10%, rgba(255, 214, 10, 0.18), transparent 40%),
+    linear-gradient(180deg, #dff4ff 0%, #fff3c4 48%, #dff5d4 100%);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -51,14 +58,18 @@ a {
 .rodape {
   padding: 2rem 1.25rem 2.5rem;
   text-align: center;
-  background: linear-gradient(180deg, #5bab4a 0%, #3f8f38 100%);
-  color: #fff8e7;
+  background:
+    linear-gradient(180deg, #2f8f46 0%, #1f6f35 55%, #185a2c 100%);
+  color: var(--cor-creme);
+  border-top: 6px solid var(--cor-amarelo);
+  box-shadow: inset 0 8px 0 rgba(0, 0, 0, 0.08);
 }
 
 .rodape p {
   margin: 0 0 0.65rem;
   font-family: var(--fonte-display);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 600;
 }
 
 .rodape-admin {

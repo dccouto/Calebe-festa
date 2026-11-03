@@ -31,3 +31,5 @@ dist-ssr
 *.wallet/
 wallet*.zip
 oracle/wallet/
+
+tmp-ref/

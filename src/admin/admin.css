@@ -21,9 +21,9 @@ body {
 
 .admin-topo h1 {
   margin: 0;
-  font-family: 'Baloo 2', sans-serif;
+  font-family: 'Fredoka', 'Baloo 2', sans-serif;
   font-size: clamp(1.5rem, 4vw, 2rem);
-  color: #c45c3e;
+  color: #e63946;
 }
 
 .admin-card {
@@ -35,8 +35,8 @@ body {
 
 .admin-card h2 {
   margin: 0 0 1rem;
-  font-family: 'Baloo 2', sans-serif;
-  color: #2f5f2a;
+  font-family: 'Fredoka', 'Baloo 2', sans-serif;
+  color: #2a7a2e;
 }
 
 .admin-campo {
@@ -47,7 +47,7 @@ body {
 
 .admin-campo span {
   font-weight: 700;
-  color: #2e6f9a;
+  color: #1d6fbf;
 }
 
 .admin-campo input {
@@ -65,7 +65,7 @@ body {
 }
 
 .admin-btn {
-  font-family: 'Baloo 2', sans-serif;
+  font-family: 'Fredoka', 'Baloo 2', sans-serif;
   font-weight: 700;
   border-radius: 10px;
   border: 0;
@@ -125,8 +125,8 @@ body {
 }
 
 .admin-tabela th {
-  font-family: 'Baloo 2', sans-serif;
-  color: #2e6f9a;
+  font-family: 'Fredoka', 'Baloo 2', sans-serif;
+  color: #1d6fbf;
 }
 
 .pill-status {
@@ -168,9 +168,9 @@ body {
 
 .stat strong {
   display: block;
-  font-family: 'Baloo 2', sans-serif;
+  font-family: 'Fredoka', 'Baloo 2', sans-serif;
   font-size: 1.4rem;
-  color: #2f5f2a;
+  color: #2a7a2e;
 }
 
 .stat span {
