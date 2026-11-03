@@ -6,15 +6,19 @@ Arquitetura **espelhada do PipocaGourmet**:
 - Banco, autenticação e RSVP no **Oracle Autonomous Database + ORDS**
 - Proxy Cloudflare para contornar **ORDS-13002** (Origin)
 
-## Schema sugerido
+## Provisionado
 
 | Recurso | Valor |
 |--------|--------|
+| ADB (compartilhado com PipocaGourmet) | Display `PipocaGourmet`, DB name `PIPOCAG`, região `us-ashburn-1` |
 | Schema REST | `CALEBEF` → `/ords/calebef/` |
-| Auth | `POST /ords/calebef/auth/login` · `POST .../auth/senha` · `GET .../auth/ping` |
+| Auth | `GET .../auth/ping` · `POST .../auth/login` · `POST .../auth/senha` |
 | RSVP público | `POST /ords/calebef/api/rsvp` (headers `responsavel`, `telefone`, `convidados`) |
 | Admin | `GET /ords/calebef/api/confirmacoes` (Bearer) |
-| Secrets | `.oci-secrets.env` (gitignored) |
+| Worker proxy | `https://calebe-ords-proxy.dccouto.workers.dev/ords` |
+| Secrets | `.oci-secrets.env` (+ cópia `~\.oci\calebe-festa.env`) — gitignored |
+
+O schema `CALEBEF` vive **no mesmo ADB** do Pipoca (`PIPOCAG`); só o usuário/ORDS path é novo.
 
 ## SQL versionado
 
@@ -35,11 +39,13 @@ powershell -File oracle/scripts/criar-admin.ps1
 Chaves esperadas em `.oci-secrets.env` (não versionar):
 
 ```
-ADB_ORDS_URL=https://XXXX.adb.us-ashburn-1.oraclecloudapps.com/ords
+ADB_ORDS_URL=https://G9FABC6EE6070CE-PIPOCAG.adb.us-ashburn-1.oraclecloudapps.com/ords/
 CALEBEF_SCHEMA_PASSWORD=...
-ADMIN_APP_EMAIL=voce@email.com
-ADMIN_APP_PASSWORD=SenhaForte
+ADMIN_APP_EMAIL=admin@calebe-festa.local
+ADMIN_APP_PASSWORD=...
 ```
+
+Admin de app: e-mail em `ADMIN_APP_EMAIL`; senha só em `.oci-secrets.env` / `~\.oci\calebe-festa.env`.
 
 ## Headers do RSVP
 

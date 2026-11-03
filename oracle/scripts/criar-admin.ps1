@@ -3,7 +3,7 @@ param(
   [string]$Senha = '',
   [string]$Nome = 'Admin',
   [string]$SecretsFile = '',
-  [string]$ProxyBase = 'https://calebe-ords-proxy.workers.dev/ords'
+  [string]$ProxyBase = 'https://calebe-ords-proxy.dccouto.workers.dev/ords'
 )
 
 <#

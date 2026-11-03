@@ -13,20 +13,22 @@ Este proxy:
 ```bash
 npx wrangler login
 npx wrangler secret put ORDS_PROXY_TARGET
-# valor: https://XXXX-calebef.adb.us-ashburn-1.oraclecloudapps.com
-# (sem /ords no final)
+# valor: https://g9fabc6ee6070ce-pipocag.adb.us-ashburn-1.oraclecloudapps.com
+# (sem /ords no final — mesmo ADB do PipocaGourmet)
 
 npx wrangler secret put CORS_ALLOW_ORIGINS
-# valor: https://SEU_USUARIO.github.io,http://localhost:5173
+# valor: https://dccouto.github.io,http://localhost:5173
 
 npx wrangler deploy
 ```
+
+Worker em produção: `https://calebe-ords-proxy.dccouto.workers.dev`
 
 No GitHub → Settings → Secrets → Actions:
 
 | Secret | Valor |
 |--------|--------|
-| `VITE_ORDS_BASE_URL` | `https://calebe-ords-proxy.<sua-conta>.workers.dev/ords` |
+| `VITE_ORDS_BASE_URL` | `https://calebe-ords-proxy.dccouto.workers.dev/ords` |
 
 ## Opção B — Cloudflare Pages (same-origin)
 

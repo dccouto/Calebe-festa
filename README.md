@@ -21,7 +21,7 @@ npm install
 copy .env.example .env
 # .env (sem BOM UTF-8):
 #   VITE_ORDS_BASE_URL=/ords
-#   ORDS_PROXY_TARGET=https://XXXX-calebef.adb.us-ashburn-1.oraclecloudapps.com
+#   ORDS_PROXY_TARGET=https://g9fabc6ee6070ce-pipocag.adb.us-ashburn-1.oraclecloudapps.com
 npm run dev
 ```
 
@@ -49,20 +49,21 @@ Sem `.env` / ORDS, o formulário ainda funciona em modo local (localStorage) + W
 ## Deploy GitHub Pages
 
 Workflow: `.github/workflows/pages.yml`  
-Secret Actions: `VITE_ORDS_BASE_URL` = URL do **Worker** (`…/ords`), **não** a URL crua do ADB.
+Secret Actions: `VITE_ORDS_BASE_URL` = `https://calebe-ords-proxy.dccouto.workers.dev/ords` (**Worker**, não a URL crua do ADB).
 
 ```bash
 npm run build   # saída em dist/
 ```
 
-`VITE_BASE` no CI = `/NomeDoRepo/` para Pages em project site.
+`VITE_BASE` no CI = `/NomeDoRepo/` para Pages em project site.  
+Produção esperada: `https://dccouto.github.io/Calebe-festa/` (+ `/admin/`).
 
 ## Oracle (OCI)
 
 Detalhes: [`oracle/README-ORACLE.md`](oracle/README-ORACLE.md)  
 Proxy: [`cloudflare/README.md`](cloudflare/README.md)
 
-Resumo: provisionar ADB Always Free → schema `CALEBEF` → aplicar SQL `001`–`003` → `criar-admin.ps1` → Worker com `ORDS_PROXY_TARGET`.
+Schema `CALEBEF` no ADB compartilhado com PipocaGourmet; SQL `001`–`003` aplicados; admin em `.oci-secrets.env`; Worker `calebe-ords-proxy` publicado.
 
 ## Stack (Vue)
 
