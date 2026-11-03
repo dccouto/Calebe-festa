@@ -6,6 +6,14 @@
     <footer class="rodape">
       <p>{{ config.marca }} · {{ config.nomeAniversariante }} faz {{ config.idade }} anos</p>
       <a class="rodape-admin" :href="adminHref">Área da família</a>
+      <p class="rodape-credito">
+        Desenvolvido pela
+        <a
+          href="https://www.linkedin.com/company/coutech"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Coutech</a>
+      </p>
     </footer>
   </div>
 </template>

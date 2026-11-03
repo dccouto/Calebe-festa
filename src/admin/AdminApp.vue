@@ -29,6 +29,15 @@
       :itens="confirmacoes"
       @recarregar="atualizar"
     />
+
+    <footer class="admin-rodape">
+      Desenvolvido pela
+      <a
+        href="https://www.linkedin.com/company/coutech"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Coutech</a>
+    </footer>
   </div>
 </template>
 
