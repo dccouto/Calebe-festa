@@ -84,6 +84,21 @@ body {
   text-decoration: underline;
 }
 
+.admin-btn.perigo {
+  background: #e63946;
+  color: #fff;
+}
+
+.admin-btn.sm {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.admin-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
 .admin-aviso,
 .admin-erro,
 .admin-ok {

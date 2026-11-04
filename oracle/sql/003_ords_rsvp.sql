@@ -1,7 +1,8 @@
 -- Turma do Calebe — ORDS RSVP
 -- Schema: CALEBEF | Base path: /ords/calebef/
---   POST /ords/calebef/api/rsvp           (público — headers: responsavel, telefone, convidados)
---   GET  /ords/calebef/api/confirmacoes   (Bearer — lista plana)
+--   POST   /ords/calebef/api/rsvp              (público — headers: responsavel, telefone, convidados)
+--   GET    /ords/calebef/api/confirmacoes      (Bearer — lista plana)
+--   DELETE /ords/calebef/api/confirmacoes/:id  (Bearer — apaga convidado; envio vazio também)
 
 CREATE OR REPLACE PACKAGE rsvp_util AS
   FUNCTION dec(p VARCHAR2) RETURN VARCHAR2;
@@ -11,6 +12,7 @@ CREATE OR REPLACE PACKAGE rsvp_util AS
     p_convidados  VARCHAR2
   ) RETURN VARCHAR2;
   FUNCTION listar_json(p_auth VARCHAR2) RETURN VARCHAR2;
+  FUNCTION excluir_json(p_auth VARCHAR2, p_id NUMBER) RETURN VARCHAR2;
 END rsvp_util;
 /
 
@@ -71,7 +73,7 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
       IF l_nome IS NULL THEN
         CONTINUE;
       END IF;
-      IF l_status NOT IN ('confirmado', 'talvez', 'nao_pode') THEN
+      IF l_status NOT IN ('confirmado', 'nao_pode') THEN
         ROLLBACK;
         RETURN '{"erro":"status invalido"}';
       END IF;
@@ -105,6 +107,7 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
 
     FOR r IN (
       SELECT c.id,
+             c.envio_id,
              c.convidado_nome,
              c.status,
              e.responsavel_nome,
@@ -120,6 +123,7 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
       l_first := FALSE;
       l_out := l_out
         || '{"id":' || TO_CHAR(r.id)
+        || ',"envio_id":' || TO_CHAR(r.envio_id)
         || ',"convidado_nome":"' || esc_json(r.convidado_nome) || '"'
         || ',"status":"' || esc_json(r.status) || '"'
         || ',"responsavel_nome":"' || esc_json(r.responsavel_nome) || '"'
@@ -131,6 +135,47 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
     RETURN l_out;
   EXCEPTION
     WHEN OTHERS THEN
+      RETURN '{"erro":"falha interna","detalhe":"' || REPLACE(SQLERRM,'"','') || '"}';
+  END;
+
+  FUNCTION excluir_json(p_auth VARCHAR2, p_id NUMBER) RETURN VARCHAR2 IS
+    l_uid     NUMBER;
+    l_envio   NUMBER;
+    l_restantes NUMBER;
+  BEGIN
+    l_uid := auth_util.usuario_do_token(p_auth);
+    IF l_uid IS NULL THEN
+      RETURN '{"erro":"nao autorizado"}';
+    END IF;
+
+    IF p_id IS NULL THEN
+      RETURN '{"erro":"id obrigatorio"}';
+    END IF;
+
+    BEGIN
+      SELECT envio_id INTO l_envio
+        FROM rsvp_convidado
+       WHERE id = p_id;
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        RETURN '{"erro":"confirmacao nao encontrada"}';
+    END;
+
+    DELETE FROM rsvp_convidado WHERE id = p_id;
+
+    SELECT COUNT(*) INTO l_restantes
+      FROM rsvp_convidado
+     WHERE envio_id = l_envio;
+
+    IF l_restantes = 0 THEN
+      DELETE FROM rsvp_envio WHERE id = l_envio;
+    END IF;
+
+    COMMIT;
+    RETURN '{"ok":true,"id":' || TO_CHAR(p_id) || ',"envio_id":' || TO_CHAR(l_envio) || '}';
+  EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
       RETURN '{"erro":"falha interna","detalhe":"' || REPLACE(SQLERRM,'"','') || '"}';
   END;
 END rsvp_util;
@@ -187,6 +232,29 @@ BEGIN
 
   ORDS.DEFINE_PARAMETER(
     p_module_name => 'api', p_pattern => 'confirmacoes', p_method => 'GET',
+    p_name => 'Authorization', p_bind_variable_name => 'authorization',
+    p_source_type => 'HEADER', p_param_type => 'STRING', p_access_method => 'IN'
+  );
+
+  ORDS.DEFINE_TEMPLATE(
+    p_module_name => 'api', p_pattern => 'confirmacoes/:id',
+    p_priority => 0, p_etag_type => 'HASH', p_comments => 'DELETE confirmacao admin'
+  );
+
+  ORDS.DEFINE_HANDLER(
+    p_module_name => 'api', p_pattern => 'confirmacoes/:id', p_method => 'DELETE',
+    p_source_type => 'plsql/block',
+    p_source => q'[BEGIN htp.p(rsvp_util.excluir_json(:authorization, :id)); END;]'
+  );
+
+  ORDS.DEFINE_PARAMETER(
+    p_module_name => 'api', p_pattern => 'confirmacoes/:id', p_method => 'DELETE',
+    p_name => 'id', p_bind_variable_name => 'id',
+    p_source_type => 'URI', p_param_type => 'INT', p_access_method => 'IN'
+  );
+
+  ORDS.DEFINE_PARAMETER(
+    p_module_name => 'api', p_pattern => 'confirmacoes/:id', p_method => 'DELETE',
     p_name => 'Authorization', p_bind_variable_name => 'authorization',
     p_source_type => 'HEADER', p_param_type => 'STRING', p_access_method => 'IN'
   );

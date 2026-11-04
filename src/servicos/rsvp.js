@@ -5,12 +5,17 @@ const STORAGE_KEY = 'calebe_rsvp_ultimo'
 
 export const STATUS_OPCOES = [
   { valor: 'confirmado', rotulo: 'Vai sim' },
-  { valor: 'talvez', rotulo: 'Talvez' },
   { valor: 'nao_pode', rotulo: 'Não pode' },
 ]
 
+const STATUS_ROTULOS = {
+  confirmado: 'Vai sim',
+  nao_pode: 'Não pode',
+  talvez: 'Talvez (antigo)',
+}
+
 export function rotuloStatus(status) {
-  return STATUS_OPCOES.find((o) => o.valor === status)?.rotulo || status
+  return STATUS_ROTULOS[status] || STATUS_OPCOES.find((o) => o.valor === status)?.rotulo || status
 }
 
 export function backendConfigurado() {
@@ -34,7 +39,7 @@ export async function enviarRsvp(payload) {
   if (!responsavel) throw new Error('Informe o nome de quem está confirmando.')
   if (!convidados.length) throw new Error('Adicione pelo menos um convidado.')
 
-  const invalido = convidados.find((c) => !['confirmado', 'talvez', 'nao_pode'].includes(c.status))
+  const invalido = convidados.find((c) => !['confirmado', 'nao_pode'].includes(c.status))
   if (invalido) throw new Error('Status de presença inválido.')
 
   const rascunho = { responsavel, telefone, convidados, enviado_em: new Date().toISOString() }
@@ -69,6 +74,18 @@ export async function listarConfirmacoes() {
     if (Array.isArray(dados)) return dados
     if (Array.isArray(dados?.items)) return dados.items
     return []
+  } catch (erro) {
+    throw new Error(mensagemErro(erro))
+  }
+}
+
+/** Exclui um convidado (e o envio se ficar vazio). Bearer. */
+export async function excluirConfirmacao(id) {
+  try {
+    await ordsFetch(`/${ORDS_SCHEMA}/api/confirmacoes/${id}`, {
+      method: 'DELETE',
+      auth: true,
+    })
   } catch (erro) {
     throw new Error(mensagemErro(erro))
   }

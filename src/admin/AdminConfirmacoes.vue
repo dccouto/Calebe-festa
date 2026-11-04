@@ -12,10 +12,6 @@
         <span>Vão sim</span>
       </div>
       <div class="stat">
-        <strong>{{ contagem.talvez }}</strong>
-        <span>Talvez</span>
-      </div>
-      <div class="stat">
         <strong>{{ contagem.nao_pode }}</strong>
         <span>Não podem</span>
       </div>
@@ -32,6 +28,7 @@
             <th>Responsável</th>
             <th>Telefone</th>
             <th>Quando</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +40,16 @@
             <td>{{ item.responsavel_nome || item.responsavel || '—' }}</td>
             <td>{{ item.telefone || '—' }}</td>
             <td>{{ formatarData(item.criado_em) }}</td>
+            <td>
+              <button
+                type="button"
+                class="admin-btn perigo sm"
+                :disabled="excluindoId === item.id"
+                @click="pedirExclusao(item)"
+              >
+                {{ excluindoId === item.id ? 'Excluindo…' : 'Excluir' }}
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -51,7 +58,7 @@
 </template>
 
 <script>
-import { rotuloStatus } from '../servicos/rsvp.js'
+import { excluirConfirmacao, rotuloStatus } from '../servicos/rsvp.js'
 
 export default {
   name: 'AdminConfirmacoes',
@@ -63,13 +70,18 @@ export default {
       },
     },
   },
-  emits: ['recarregar'],
+  emits: ['recarregar', 'erro', 'ok'],
+  data() {
+    return {
+      excluindoId: null,
+    }
+  },
   computed: {
     total() {
       return this.itens.length
     },
     contagem() {
-      const base = { confirmado: 0, talvez: 0, nao_pode: 0 }
+      const base = { confirmado: 0, nao_pode: 0 }
       for (const item of this.itens) {
         if (base[item.status] !== undefined) base[item.status] += 1
       }
@@ -85,6 +97,25 @@ export default {
       const d = new Date(valor)
       if (Number.isNaN(d.getTime())) return String(valor)
       return d.toLocaleString('pt-BR')
+    },
+    async pedirExclusao(item) {
+      const nome = item.convidado_nome || item.nome || 'esta pessoa'
+      if (!item.id) {
+        this.$emit('erro', 'Registro sem id — não é possível excluir.')
+        return
+      }
+      if (!confirm(`Excluir a confirmação de “${nome}”?`)) return
+
+      this.excluindoId = item.id
+      try {
+        await excluirConfirmacao(item.id)
+        this.$emit('ok', `Confirmação de “${nome}” excluída.`)
+        this.$emit('recarregar')
+      } catch (e) {
+        this.$emit('erro', e.message || 'Não foi possível excluir.')
+      } finally {
+        this.excluindoId = null
+      }
     },
   },
 }

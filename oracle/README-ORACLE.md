@@ -14,7 +14,7 @@ Arquitetura **espelhada do PipocaGourmet**:
 | Schema REST | `CALEBEF` → `/ords/calebef/` |
 | Auth | `GET .../auth/ping` · `POST .../auth/login` · `POST .../auth/senha` |
 | RSVP público | `POST /ords/calebef/api/rsvp` (headers `responsavel`, `telefone`, `convidados`) |
-| Admin | `GET /ords/calebef/api/confirmacoes` (Bearer) |
+| Admin | `GET /ords/calebef/api/confirmacoes` · `DELETE /ords/calebef/api/confirmacoes/:id` (Bearer) |
 | Worker proxy | `https://calebe-ords-proxy.dccouto.workers.dev/ords` |
 | Secrets | `.oci-secrets.env` (+ cópia `~\.oci\calebe-festa.env`) — gitignored |
 
@@ -26,12 +26,14 @@ O schema `CALEBEF` vive **no mesmo ADB** do Pipoca (`PIPOCAG`); só o usuário/O
 |---------|----------|
 | `sql/001_schema_calebef.sql` | Usuário + tabelas admin/sessão/RSVP |
 | `sql/002_ords_auth.sql` | Pacote auth + módulo ORDS |
-| `sql/003_ords_rsvp.sql` | Pacote RSVP + módulo `api` |
+| `sql/003_ords_rsvp.sql` | Pacote RSVP + módulo `api` (POST/GET/DELETE) |
+| `sql/004_rsvp_sem_talvez.sql` | Migração: remove status `talvez` + CHECK |
 
 Aplicar (com ADB provisionado e ORDS habilitado no schema):
 
 ```powershell
 powershell -File oracle/scripts/apply-sql.ps1 -SqlFile oracle/sql/002_ords_auth.sql -SecretsFile .oci-secrets.env
+powershell -File oracle/scripts/apply-sql.ps1 -SqlFile oracle/sql/004_rsvp_sem_talvez.sql -SecretsFile .oci-secrets.env
 powershell -File oracle/scripts/apply-sql.ps1 -SqlFile oracle/sql/003_ords_rsvp.sql -SecretsFile .oci-secrets.env
 powershell -File oracle/scripts/criar-admin.ps1
 ```
@@ -55,4 +57,4 @@ O front envia (percent-encoded, como no catálogo do PipocaGourmet):
 - `telefone` — opcional
 - `convidados` — JSON array `[{"nome":"Ana","status":"confirmado"},...]`
 
-Status válidos: `confirmado` | `talvez` | `nao_pode`.
+Status válidos: `confirmado` | `nao_pode`.

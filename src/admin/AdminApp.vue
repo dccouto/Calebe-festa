@@ -27,7 +27,9 @@
     <AdminConfirmacoes
       v-if="sessao && !carregando"
       :itens="confirmacoes"
-      @recarregar="atualizar"
+      @recarregar="atualizarSilencioso"
+      @erro="mostrarErro"
+      @ok="mostrarOk"
     />
 
     <footer class="admin-rodape">
@@ -115,6 +117,21 @@ export default {
       } catch (e) {
         this.erro = mensagemErro(e)
       }
+    },
+    async atualizarSilencioso() {
+      try {
+        await this.carregarLista()
+      } catch (e) {
+        this.erro = mensagemErro(e)
+      }
+    },
+    mostrarErro(msg) {
+      this.ok = ''
+      this.erro = msg
+    },
+    mostrarOk(msg) {
+      this.erro = ''
+      this.ok = msg
     },
     async fazerLogout() {
       await sair()

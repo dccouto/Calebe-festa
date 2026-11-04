@@ -10,9 +10,9 @@ Convite digital + confirmação de presença (RSVP), com painel privado para a f
 
 - Hero **Turma do Calebe** + aniversário de 2 anos (tema visual da vila, ilustração SVG própria)
 - Seção de local/data/hora (placeholders em `src/config.js`)
-- RSVP multi-pessoa (nome + status: vai / talvez / não pode) → grava no Oracle
+- RSVP multi-pessoa (nome + status: vai / não pode) → grava no Oracle
 - Extra opcional: aviso via WhatsApp
-- Área privada `/admin/` com login e lista de confirmações
+- Área privada `/admin/` com login, lista de confirmações e exclusão
 
 ## Rodar local
 
@@ -44,7 +44,7 @@ Sem `.env` / ORDS, o formulário ainda funciona em modo local (localStorage) + W
 2. O front chama `POST /ords/calebef/api/rsvp` (headers percent-encoded, igual PipocaGourmet).
 3. Oracle grava em `rsvp_envio` + `rsvp_convidado`.
 4. Também guarda uma cópia local do último envio e pode abrir WhatsApp com a lista.
-5. No `/admin/`, após login (`POST /ords/calebef/auth/login`), `GET /ords/calebef/api/confirmacoes` lista tudo.
+5. No `/admin/`, após login (`POST /ords/calebef/auth/login`), `GET /ords/calebef/api/confirmacoes` lista tudo; `DELETE .../confirmacoes/:id` exclui.
 
 ## Deploy GitHub Pages
 
@@ -63,7 +63,7 @@ Produção esperada: `https://dccouto.github.io/Calebe-festa/` (+ `/admin/`).
 Detalhes: [`oracle/README-ORACLE.md`](oracle/README-ORACLE.md)  
 Proxy: [`cloudflare/README.md`](cloudflare/README.md)
 
-Schema `CALEBEF` no ADB compartilhado com PipocaGourmet; SQL `001`–`003` aplicados; admin em `.oci-secrets.env`; Worker `calebe-ords-proxy` publicado.
+Schema `CALEBEF` no ADB compartilhado com PipocaGourmet; SQL `001`–`004` aplicados; admin em `.oci-secrets.env`; Worker `calebe-ords-proxy` publicado.
 
 ## Stack (Vue)
 
