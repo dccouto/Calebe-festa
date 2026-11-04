@@ -13,7 +13,7 @@
     <div class="hero-conteudo">
       <p class="marca">{{ config.marca }}</p>
       <h1 class="titulo">{{ config.nomeAniversariante }} faz {{ config.idade }} anos!</h1>
-      <p class="frase">Venha brincar na nossa vila colorida — a festa fica completa com você.</p>
+      <p class="frase">Venha brincar na nossa vila — a festa fica completa com você.</p>
       <button type="button" class="cta" @click="$emit('confirmar')">
         Confirmar presença
       </button>
