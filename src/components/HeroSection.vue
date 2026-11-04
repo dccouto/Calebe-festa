@@ -8,7 +8,7 @@
         width="1024"
         height="724"
       />
-      <div class="hero-vinheta" />
+      <div class="hero-vinheta-2" />
     </div>
     <div class="hero-conteudo">
       <p class="marca">{{ config.marca }}</p>
@@ -67,6 +67,21 @@ export default {
 }
 
 .hero-vinheta {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 12, 8, 0.22) 0%,
+      rgba(20, 12, 8, 0.08) 28%,
+      rgba(20, 12, 8, 0.35) 58%,
+      rgba(20, 12, 8, 0.72) 100%
+    ),
+    radial-gradient(ellipse at 35% 85%, transparent, rgba(255, 214, 10, 0.14) 50%);
+}
+
+.hero-vinheta-2 {
   position: absolute;
   inset: 0;
   pointer-events: none;
