@@ -24,11 +24,10 @@ export function backendConfigurado() {
 
 /**
  * Envia confirmação para o Oracle ORDS.
- * @param {{ responsavel: string, telefone?: string, convidados: Array<{ nome: string, status: string }> }} payload
+ * Headers `responsavel`/`telefone` seguem vazios (legado ORDS); só a lista de pessoas importa.
+ * @param {{ convidados: Array<{ nome: string, status: string }> }} payload
  */
 export async function enviarRsvp(payload) {
-  const responsavel = String(payload.responsavel || '').trim()
-  const telefone = String(payload.telefone || '').trim()
   const convidados = (payload.convidados || [])
     .map((c) => ({
       nome: String(c.nome || '').trim(),
@@ -36,13 +35,12 @@ export async function enviarRsvp(payload) {
     }))
     .filter((c) => c.nome)
 
-  if (!responsavel) throw new Error('Informe o nome de quem está confirmando.')
   if (!convidados.length) throw new Error('Adicione pelo menos um convidado.')
 
   const invalido = convidados.find((c) => !['confirmado', 'nao_pode'].includes(c.status))
   if (invalido) throw new Error('Status de presença inválido.')
 
-  const rascunho = { responsavel, telefone, convidados, enviado_em: new Date().toISOString() }
+  const rascunho = { convidados, enviado_em: new Date().toISOString() }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(rascunho))
 
   if (!ordsConfigurado) {
@@ -53,8 +51,8 @@ export async function enviarRsvp(payload) {
     const dados = await ordsFetch(`/${ORDS_SCHEMA}/api/rsvp`, {
       method: 'POST',
       headers: headersCampos({
-        responsavel,
-        telefone,
+        responsavel: '',
+        telefone: '',
         convidados: JSON.stringify(convidados),
       }),
     })
@@ -100,7 +98,7 @@ export function lerUltimoRsvpLocal() {
   }
 }
 
-export function montarMensagemWhatsApp({ responsavel, telefone, convidados }, config) {
+export function montarMensagemWhatsApp({ convidados }, config) {
   const linhas = convidados.map(
     (c) => `• ${c.nome} — ${rotuloStatus(c.status)}`,
   )
@@ -108,14 +106,9 @@ export function montarMensagemWhatsApp({ responsavel, telefone, convidados }, co
     `Olá! Confirmação de presença — ${config.marca}`,
     `${config.nomeAniversariante} faz ${config.idade} anos`,
     '',
-    `Quem confirmou: ${responsavel}`,
-    telefone ? `Telefone: ${telefone}` : null,
-    '',
     'Convidados:',
     ...linhas,
-  ]
-    .filter((l) => l !== null)
-    .join('\n')
+  ].join('\n')
 }
 
 export function urlWhatsApp(numero, texto) {

@@ -40,7 +40,7 @@ Sem `.env` / ORDS, o formulário ainda funciona em modo local (localStorage) + W
 
 ## Como funciona o RSVP
 
-1. Convidado preenche responsável, telefone (opcional) e uma ou mais pessoas com status.
+1. Convidado preenche uma ou mais pessoas com nome e status (vai / não pode).
 2. O front chama `POST /ords/calebef/api/rsvp` (headers percent-encoded, igual PipocaGourmet).
 3. Oracle grava em `rsvp_envio` + `rsvp_convidado`.
 4. Também guarda uma cópia local do último envio e pode abrir WhatsApp com a lista.

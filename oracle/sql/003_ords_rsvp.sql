@@ -1,6 +1,6 @@
 -- Turma do Calebe — ORDS RSVP
 -- Schema: CALEBEF | Base path: /ords/calebef/
---   POST   /ords/calebef/api/rsvp              (público — headers: responsavel, telefone, convidados)
+--   POST   /ords/calebef/api/rsvp              (público — headers: convidados; responsavel/telefone opcionais/legado)
 --   GET    /ords/calebef/api/confirmacoes      (Bearer — lista plana)
 --   DELETE /ords/calebef/api/confirmacoes/:id  (Bearer — apaga convidado; envio vazio também)
 
@@ -37,7 +37,7 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
     p_telefone    VARCHAR2,
     p_convidados  VARCHAR2
   ) RETURN VARCHAR2 IS
-    l_resp   VARCHAR2(120) := TRIM(dec(p_responsavel));
+    l_resp   VARCHAR2(120) := NVL(TRIM(dec(p_responsavel)), '');
     l_tel    VARCHAR2(40)  := TRIM(NVL(dec(p_telefone), ''));
     l_json   CLOB          := NVL(dec(p_convidados), '[]');
     l_envio  NUMBER;
@@ -47,10 +47,6 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
     l_nome   VARCHAR2(120);
     l_status VARCHAR2(20);
   BEGIN
-    IF l_resp IS NULL THEN
-      RETURN '{"erro":"responsavel obrigatorio"}';
-    END IF;
-
     BEGIN
       l_arr := JSON_ARRAY_T.parse(l_json);
     EXCEPTION

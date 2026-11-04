@@ -7,16 +7,6 @@
       </p>
 
       <form class="formulario" @submit.prevent="enviar">
-        <label class="campo">
-          <span>Seu nome</span>
-          <input v-model.trim="responsavel" type="text" name="responsavel" autocomplete="name" required placeholder="Quem está respondendo" />
-        </label>
-
-        <label class="campo">
-          <span>Telefone / WhatsApp (opcional)</span>
-          <input v-model.trim="telefone" type="tel" name="telefone" autocomplete="tel" placeholder="(11) 99999-9999" />
-        </label>
-
         <div class="lista-convidados">
           <div class="lista-cabecalho">
             <h3>Quem vai?</h3>
@@ -89,8 +79,6 @@ export default {
   },
   data() {
     return {
-      responsavel: '',
-      telefone: '',
       convidados: [pessoaVazia()],
       statusOpcoes: STATUS_OPCOES,
       enviando: false,
@@ -101,7 +89,7 @@ export default {
   },
   computed: {
     podeWhatsApp() {
-      return Boolean(this.responsavel && this.convidados.some((c) => c.nome))
+      return this.convidados.some((c) => c.nome)
     },
   },
   methods: {
@@ -113,8 +101,6 @@ export default {
     },
     payload() {
       return {
-        responsavel: this.responsavel,
-        telefone: this.telefone,
         convidados: this.convidados.map((c) => ({
           nome: c.nome,
           status: c.status,
@@ -213,7 +199,7 @@ h2 {
 }
 
 .lista-convidados {
-  margin: 1.25rem 0 0.5rem;
+  margin: 0 0 0.5rem;
   display: grid;
   gap: 0.85rem;
 }

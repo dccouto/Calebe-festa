@@ -25,8 +25,6 @@
           <tr>
             <th>Convidado</th>
             <th>Status</th>
-            <th>Responsável</th>
-            <th>Telefone</th>
             <th>Quando</th>
             <th></th>
           </tr>
@@ -37,8 +35,6 @@
             <td>
               <span class="pill-status" :class="item.status">{{ rotulo(item.status) }}</span>
             </td>
-            <td>{{ item.responsavel_nome || item.responsavel || '—' }}</td>
-            <td>{{ item.telefone || '—' }}</td>
             <td>{{ formatarData(item.criado_em) }}</td>
             <td>
               <button
