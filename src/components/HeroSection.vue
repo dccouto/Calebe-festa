@@ -48,6 +48,7 @@ export default {
   align-items: flex-end;
   overflow: hidden;
   color: #1f140c;
+  background: #5bb8e8;
 }
 
 .hero-visual {
@@ -212,6 +213,55 @@ export default {
 
   .hero-fundo {
     object-position: center 22%;
+  }
+}
+
+/* Mobile: arte completa (altura natural, sem crop do cover) */
+@media (max-width: 899px) {
+  .hero {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: visible;
+  }
+
+  .hero-visual {
+    position: relative;
+    inset: auto;
+    flex: 0 0 auto;
+  }
+
+  .hero-fundo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center top;
+    animation: none;
+  }
+
+  .hero-vinheta {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(20, 12, 8, 0.08) 0%,
+        rgba(20, 12, 8, 0.05) 45%,
+        rgba(20, 12, 8, 0.55) 78%,
+        rgba(20, 12, 8, 0.88) 100%
+      ),
+      radial-gradient(ellipse at 35% 85%, rgba(255, 214, 10, 0.12), transparent 50%);
+  }
+
+  .hero-conteudo {
+    width: 100%;
+    margin-top: -3.25rem;
+    padding-top: 2rem;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(20, 12, 8, 0.5) 38%,
+      rgba(20, 12, 8, 0.9) 100%
+    );
   }
 }
 
