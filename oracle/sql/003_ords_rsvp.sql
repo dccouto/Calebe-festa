@@ -37,8 +37,9 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
     p_telefone    VARCHAR2,
     p_convidados  VARCHAR2
   ) RETURN VARCHAR2 IS
-    l_resp   VARCHAR2(120) := NVL(TRIM(dec(p_responsavel)), '');
-    l_tel    VARCHAR2(40)  := TRIM(NVL(dec(p_telefone), ''));
+    -- Header ausente/vazio → NULL (colunas nullable; '' vira NULL no Oracle)
+    l_resp   VARCHAR2(120) := NULLIF(TRIM(dec(p_responsavel)), '');
+    l_tel    VARCHAR2(40)  := NULLIF(TRIM(dec(p_telefone)), '');
     l_json   CLOB          := NVL(dec(p_convidados), '[]');
     l_envio  NUMBER;
     l_count  PLS_INTEGER := 0;

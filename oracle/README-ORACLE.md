@@ -28,7 +28,7 @@ O schema `CALEBEF` vive **no mesmo ADB** do Pipoca (`PIPOCAG`); só o usuário/O
 | `sql/002_ords_auth.sql` | Pacote auth + módulo ORDS |
 | `sql/003_ords_rsvp.sql` | Pacote RSVP + módulo `api` (POST/GET/DELETE) |
 | `sql/004_rsvp_sem_talvez.sql` | Migração: remove status `talvez` + CHECK |
-| `sql/005_rsvp_sem_responsavel.sql` | Migração: responsável/telefone opcionais no POST |
+| `sql/005_rsvp_sem_responsavel.sql` | Migração: `responsavel_nome`/`telefone` nullable (evita ORA-01400; `''`=NULL no Oracle) |
 
 Aplicar (com ADB provisionado e ORDS habilitado no schema):
 
@@ -56,6 +56,6 @@ Admin de app: e-mail em `ADMIN_APP_EMAIL`; senha só em `.oci-secrets.env` / `~\
 O front envia (percent-encoded, como no catálogo do PipocaGourmet):
 
 - `convidados` — JSON array `[{"nome":"Ana","status":"confirmado"},...]` (obrigatório)
-- `responsavel` / `telefone` — opcionais (legado; o site não coleta mais)
+- `responsavel` / `telefone` — opcionais/legado (o site omite; colunas nullable no ADB)
 
 Status válidos: `confirmado` | `nao_pode`.

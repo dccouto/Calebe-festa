@@ -24,7 +24,7 @@ export function backendConfigurado() {
 
 /**
  * Envia confirmação para o Oracle ORDS.
- * Headers `responsavel`/`telefone` seguem vazios (legado ORDS); só a lista de pessoas importa.
+ * Só envia `convidados`; `responsavel`/`telefone` são opcionais/legado e ficam omitidos.
  * @param {{ convidados: Array<{ nome: string, status: string }> }} payload
  */
 export async function enviarRsvp(payload) {
@@ -51,8 +51,6 @@ export async function enviarRsvp(payload) {
     const dados = await ordsFetch(`/${ORDS_SCHEMA}/api/rsvp`, {
       method: 'POST',
       headers: headersCampos({
-        responsavel: '',
-        telefone: '',
         convidados: JSON.stringify(convidados),
       }),
     })

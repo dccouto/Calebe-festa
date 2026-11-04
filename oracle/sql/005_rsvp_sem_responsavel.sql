@@ -1,10 +1,21 @@
 -- Turma do Calebe — RSVP sem responsável obrigatório
 -- Schema: CALEBEF. Aplicar após 003_ords_rsvp.sql (ou reaplicar 003 atualizado).
 -- Front deixa de enviar nome/telefone do responsável; coluna permanece para legado.
+--
+-- Causa do ORA-01400: em Oracle VARCHAR2, '' é NULL. O PL/SQL fazia
+--   NVL(TRIM(...), '') → ainda NULL → INSERT em NOT NULL falhava.
+-- Correção: colunas opcionais (NULL permitido) + pacote que normaliza ausentes.
 
--- Já é NOT NULL; só define default vazio para inserts sem o campo.
 BEGIN
-  EXECUTE IMMEDIATE q'[ALTER TABLE rsvp_envio MODIFY (responsavel_nome DEFAULT '')]';
+  EXECUTE IMMEDIATE q'[ALTER TABLE rsvp_envio MODIFY (responsavel_nome NULL)]';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE NOT IN (-1442, -1451) THEN RAISE; END IF;
+END;
+/
+
+BEGIN
+  EXECUTE IMMEDIATE q'[ALTER TABLE rsvp_envio MODIFY (telefone NULL)]';
 EXCEPTION
   WHEN OTHERS THEN
     IF SQLCODE NOT IN (-1442, -1451) THEN RAISE; END IF;
@@ -44,8 +55,9 @@ CREATE OR REPLACE PACKAGE BODY rsvp_util AS
     p_telefone    VARCHAR2,
     p_convidados  VARCHAR2
   ) RETURN VARCHAR2 IS
-    l_resp   VARCHAR2(120) := NVL(TRIM(dec(p_responsavel)), '');
-    l_tel    VARCHAR2(40)  := TRIM(NVL(dec(p_telefone), ''));
+    -- TRIM/NVL: header ausente ou vazio → NULL (colunas nullable)
+    l_resp   VARCHAR2(120) := NULLIF(TRIM(dec(p_responsavel)), '');
+    l_tel    VARCHAR2(40)  := NULLIF(TRIM(dec(p_telefone)), '');
     l_json   CLOB          := NVL(dec(p_convidados), '[]');
     l_envio  NUMBER;
     l_count  PLS_INTEGER := 0;
