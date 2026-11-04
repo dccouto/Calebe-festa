@@ -258,9 +258,9 @@ export default {
     padding-top: 2rem;
     background: linear-gradient(
       180deg,
-      transparent 0%,
-      rgba(20, 12, 8, 0.5) 38%,
-      rgba(20, 12, 8, 0.9) 100%
+      rgba(20, 12, 8, 0.9) 0%,
+      rgba(20, 12, 8, 0.5) 62%,
+      transparent 100%
     );
   }
 }
