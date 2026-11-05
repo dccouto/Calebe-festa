@@ -119,6 +119,8 @@ export default {
           this.sucesso =
             'Salvo neste aparelho. Configure a API Oracle (VITE_ORDS_BASE_URL) para gravar no banco, ou use o WhatsApp abaixo.'
         }
+        this.convidados = [pessoaVazia()]
+        this.erro = ''
       } catch (e) {
         this.erro = e.message || 'Não foi possível enviar.'
       } finally {
